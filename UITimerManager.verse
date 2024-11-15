@@ -54,32 +54,23 @@ Timer := class():
                     set Seconds = 60
         TimerText.SetText(StringToMessage("{Hours}:{Minutes}:{Seconds}" ))
 
-
-
-
-            
-
-
-
-
-
 UITimerManager := class(creative_device):
 
     # Runs when the device is started in a running game
     OnBegin<override>()<suspends>:void=
         for(Player : GetPlayspace().GetPlayers()):
-            InitalizeTimer(Player)
+            InitializeTimer(Player)
 
-        GetPlayspace().PlayerAddedEvent().Subscribe(InitalizeTimer)
+        GetPlayspace().PlayerAddedEvent().Subscribe(InitializeTimer)
 
-    InitalizeTimer(Agent:agent) : void=
-        Newtimer : Timer = Timer{}
-        Newtimer.SetUpCanvas()
+    InitializeTimer(Agent:agent) : void=
+        var NewTimer : Timer = Timer{}
+        NewTimer.SetUpCanvas()
         if(Player := player[Agent],PlayerUI := GetPlayerUI[Player]):
            PlayerUI.AddWidget(NewPlayerCanvas : canvas = canvas:
               Slots := array:
                   canvas_slot:
-                      Widget := Newtimer.TimerCanvas
+                      Widget := NewTimer.TimerCanvas
                       Widget := TimerText
                       Anchors := anchors{Minimum := vector2{X:= 0.5, Y:= 0.5}, Maximum := vector2{X:= 0.5, Y:= 0.5}}
                       Offsets := margin{Left := 812.0, Top := 20.0, Right := 275.0, Bottom := 148.0}
